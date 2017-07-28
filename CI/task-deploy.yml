@@ -1,0 +1,30 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: openjdk, tag: 8}
+
+inputs:
+- name: sources
+
+outputs:
+- name: sources-output # Output to special name space
+
+caches:
+  - path: ["sources/application/build","sources/application/.gradle"]
+
+run: # Gradle release + version bumping
+  path: sh
+  args:
+  - -exc
+  - |
+    git config --global user.email "concourse@build.com"
+    git clone sources sources-output
+    cd sources-output/application
+    ./gradlew printVersion
+    ./gradlew tag -Prelease build uploadArchives
+    ./gradlew printVersion
+    git commit --allow-empty -a -m "[ci skip] version bump"
+    ./gradlew -PbumpComponent=patch
+    ./gradlew printVersion
+    git status
