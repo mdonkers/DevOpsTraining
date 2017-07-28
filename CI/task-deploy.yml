@@ -28,3 +28,4 @@ run: # Gradle release + version bumping
     ./gradlew -PbumpComponent=patch
     ./gradlew printVersion
     git status
+    git push

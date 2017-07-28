@@ -21,3 +21,12 @@ jobs:
     passed: [build] # Trigger after job build has passed
   - task: unit test
     file: sources/CI/task-unit-test.yml
+- name: deploy # Name of the job
+  plan:
+  - get: sources # Download the sources
+    trigger: true
+    passed: [test] # Trigger after job test has passed
+  - task: tag, publish and publish new version
+    file: sources/CI/task-deploy.yml
+  - put: sources
+    params: {repository: sources-output} # Push latest version after tagging en version bump
