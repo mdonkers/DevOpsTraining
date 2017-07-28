@@ -9,5 +9,5 @@ inputs:
 
 run:
   path: ./gradlew # Command to execute
-  args: ["build"]
+  args: ["build", "-x", "test"]
   dir: sources/application # Location to execute, note the 'sources' as directory prefix

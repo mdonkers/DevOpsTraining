@@ -21,7 +21,7 @@ public class GreetingTest {
 
     @Test
     public void getEnvironment() throws Exception {
-        assertEquals("blue", uut.getEnvironment());
+        assertEquals("bluu", uut.getEnvironment());
     }
 
     @Test
