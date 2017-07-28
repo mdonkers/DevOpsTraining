@@ -4,6 +4,7 @@ resources:
   type: git # Resource type
   source:
     uri: git@github.com:mdonkers/DevOpsTraining.git
+    branch: master
     private_key: ((private-repo-key))
 
 # Jobs section
