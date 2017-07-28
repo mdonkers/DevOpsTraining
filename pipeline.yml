@@ -14,3 +14,10 @@ jobs:
     trigger: true
   - task: build software
     file: sources/CI/task-build.yml
+- name: test # Name of the job
+  plan:
+  - get: sources # Download the sources
+    trigger: true
+    passed: [build] # Trigger after job build has passed
+  - task: unit test
+    file: sources/CI/task-unit-test.yml
