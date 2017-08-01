@@ -36,6 +36,7 @@ public class GreetingController {
 
     @RequestMapping("/")
     public Greeting greeting() {
+        System.out.println("Requested Greeting");
         return new Greeting(serverAddress, this.environment, this.version,counter.getAndIncrement());
     }
 }
