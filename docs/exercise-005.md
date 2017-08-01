@@ -12,6 +12,7 @@ version contains. To achieve this, take these steps:
 tag, version bump and deploy to nexus step and pushing the changes to git.
 ```yaml
 - name: deploy # Name of the job
+  serial: true # No parallel execution of the plan
   plan:
   - get: sources # Download the sources
     trigger: true
@@ -70,6 +71,23 @@ pushed to the git repository
 ![Nexus release](images/nexus-deploy.png)
 - Also view the git log for the tags
 ![Git tags](images/git-tag.png)
+
+## Additional notes
+
+It could be that the task fails, because the tag already exists for example. A good way to correct is, is to remove the 
+tag with the following commands.
+```bash
+# First get the latest version 
+git pull
+# Locally delete the tag
+git tag -d TAGNAME
+# Delete tag remote
+git push --delete origin TAGNAME
+```
+
+## Bonus
+
+Extend the deploy task with an **on_failure*** situtation. Remove the previous place tag.
 
 Now it is time to run the software in the [next exercise](exercise-006.md).
 
