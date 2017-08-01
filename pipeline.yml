@@ -6,6 +6,12 @@ resources:
     uri: git@github.com:mdonkers/DevOpsTraining.git
     branch: master
     private_key: ((private-repo-key))
+- name: put-sources # Name of the resource
+  type: git # Resource type
+  source:
+    uri: git@github.com:mdonkers/DevOpsTraining.git
+    branch: master
+    private_key: ((private-repo-key))
 
 # Jobs section
 jobs:
@@ -29,7 +35,7 @@ jobs:
     passed: [test] # Trigger after job test has passed
   - task: tag, publish and publish new version
     file: sources/CI/task-deploy.yml
-  - put: sources
+  - put: put-sources
     params: {repository: sources-output} # Push latest version after tagging en version bump
 - name: run
   plan:
