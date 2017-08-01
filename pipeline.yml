@@ -31,3 +31,10 @@ jobs:
     file: sources/CI/task-deploy.yml
   - put: sources
     params: {repository: sources-output} # Push latest version after tagging en version bump
+- name: run
+  plan:
+  - get: sources # Download the sources
+    trigger: true
+    passed: [deploy] # Trigger after job test has passed
+  - task: run the application in the blue environment
+    file: sources/CI/task-run.yml
