@@ -44,4 +44,4 @@ jobs:
     trigger: true
     passed: [deploy] # Trigger after job test has passed
   - task: run the application in the blue environment
-    file: sources/CI/task-run.yml
+    file: sources/CI/task-blue-green.yml

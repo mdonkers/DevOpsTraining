@@ -1,0 +1,27 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: openjdk, tag: 8}
+
+run:
+  path: ./gradlew # Command to execute
+  args: ["build"]
+  dir: sources/application # Location to execute, note the 'sources' as directory prefix
+
+run: # Gradle release + version bumping
+  path: sh
+  args:
+  - -exc
+  - |
+    VERSION=$(curl -X GET http://consul.service.consul:8500/v1/kv/version?raw=true)
+    CURRENT_ENVIRONMENT=$(curl -X GET http://consul.service.consul:8500/v1/kv/environment?raw=true)
+    DOWNLOAD_URL="http://nexus.service.consul:8081/nexus/content/repositories/releases/nl/codecentric/devops/training/devops-training-application/$VERSION/devops-training-application-$VERSION.jar"
+    ENVIRONMENT="blue"
+    if [ "$CURRENT_ENVIRONMENT" = "blue" ]; then
+      ENVIRONMENT="green"
+    elif [ "$CURRENT_ENVIRONMENT" = "green" ]; then
+      ENVIRONMENT="blue"
+    fi
+    curl "http://run-on-docker.service.consul:8000/?application=$DOWNLOAD_URL&environment=$ENVIRONMENT&version=$VERSION"
+    curl -X PUT -d "$ENVIRONMENT" http://consul.service.consul:8500/v1/kv/environment
