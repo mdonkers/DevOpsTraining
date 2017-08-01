@@ -9,6 +9,7 @@ inputs:
 
 outputs:
 - name: sources-output # Output to special name space
+- name: new-version
 
 caches:
   - path: ["sources/application/build","sources/application/.gradle"]

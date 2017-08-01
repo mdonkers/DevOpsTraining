@@ -29,6 +29,7 @@ jobs:
   - task: unit test
     file: sources/CI/task-unit-test.yml
 - name: deploy # Name of the job
+  serial: true # No parallel execution of the plan
   plan:
   - get: sources # Download the sources
     trigger: true
