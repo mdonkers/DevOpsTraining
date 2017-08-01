@@ -28,3 +28,6 @@ run: # Gradle release + version bumping
     ./gradlew -PbumpComponent=patch
     ./gradlew printVersion
     git status
+    VERSION=$(git describe --abbrev=0 --tags)
+    echo $VERSION
+    curl -X PUT -d "$VERSION" http://consul.service.consul:8500/v1/kv/version
